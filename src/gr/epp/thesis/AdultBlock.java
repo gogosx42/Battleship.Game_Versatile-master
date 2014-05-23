@@ -43,8 +43,8 @@ public class AdultBlock extends GenericBlock {
     @Override
     public void initializeShipsList() {
         if (this.player) {
-            setBorder(values.getAlliesShipListBorder());
-            setBackground(values.getAlliesShipListBackgroundColor());
+            setBorder(values.getAllyShipListBorder());
+            setBackground(values.getAllyShipListBackgroundColor());
             setOnShipsList(true);
             switch (this.index) {
                 case (0):

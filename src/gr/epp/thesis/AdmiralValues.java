@@ -26,24 +26,24 @@ public class AdmiralValues extends GenericValues {
         this.frameHeight = 1050;
         this.shipsNumber = 10;
         this.seaColor = Color.CYAN.darker();
-        this.alliesShipListBackgroundColor = Color.LIGHT_GRAY.darker();
+        this.allyShipListBackgroundColor = Color.LIGHT_GRAY.darker();
         this.enemyShipListBackgroundColor = Color.DARK_GRAY.darker();
-        this.alliesShipListBorder = new LineBorder(Color.GREEN.darker(), 1, false);
+        this.allyShipListBorder = new LineBorder(Color.GREEN.darker(), 1, false);
         this.enemyShipListBorder = new LineBorder(Color.RED.darker(), 1, false);
         this.waterIcon = new ImageIcon("graphics/water.gif");
         this.decorIcon = new ImageIcon("graphics/admiralDecorLabel.png");
-        this.alliesBanner = new ImageIcon("graphics/myFleetAdmiralIcon.png");
+        this.allyBanner = new ImageIcon("graphics/myFleetAdmiralIcon.png");
         this.enemyBanner = new ImageIcon("graphics/enemyFleetAdmiralIcon.png");
         this.toolkit = Toolkit.getDefaultToolkit();
         this.targetIcon = toolkit.getImage("graphics/sword.gif");
         this.successfulShotIcon = new ImageIcon("graphics/fire.gif");
         this.missedShotIcon = new ImageIcon("graphics/miss.gif");
-        this.alliesShipsIcons = new ArrayList<>();
+        this.allyShipsIcons = new ArrayList<>();
         for (int i = 0; i < shipsNumber; i++) {
-            this.alliesShipsIcons.add(new ImageIcon("graphics/modernWarship" + i + ".gif"));
+            this.allyShipsIcons.add(new ImageIcon("graphics/modernWarship" + i + ".gif"));
         }
         this.enemyShipsIcons = new ArrayList<>();
-        this.enemyShipsIcons = alliesShipsIcons;
+        this.enemyShipsIcons = allyShipsIcons;
         this.shipBlocksTotalNumber = 28;
         this.shipListSize = 11;
         this.shipListRows = 11;

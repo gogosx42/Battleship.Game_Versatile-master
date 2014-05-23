@@ -36,8 +36,8 @@ public class AdmiralLabel extends GenericLabel {
     public void initializePlayerLabel() {
         setHorizontalAlignment(CENTER);
         if (player) {
-            setBorder(values.getAlliesShipListBorder());
-            setIcon(values.getAlliesBanner());
+            setBorder(values.getAllyShipListBorder());
+            setIcon(values.getAllyBanner());
         } else {
             setBorder(values.getEnemyShipListBorder());
             setIcon(values.getEnemyBanner());

@@ -43,8 +43,8 @@ public class BattleshipMain implements ActionListener, Runnable {
     private JPanel enemyBoard = new JPanel();
     private static Class tempClass;
     private GameControl gameControl;
-    private JPanel myShipsList;
-    private JPanel enemyShipsList;
+    private JPanel allyShipsListPanel;
+    private JPanel enemyShipsListPanel;
     private PrintWriter out = null;
     private BufferedReader in = null;
     //private DataInputStream in2 = null;
@@ -89,10 +89,10 @@ public class BattleshipMain implements ActionListener, Runnable {
         downPanel.setLayout(new BorderLayout(10, 0));
         downPanel.add(myBoard, BorderLayout.CENTER);
         myBoard.setLayout(new GridLayout(this.playerValues.getGridRows(), this.playerValues.getGridColumns()));
-        myShipsList = new JPanel(new GridLayout(playerValues.getShipListRows(), playerValues.getShipListColumns()));
-        enemyShipsList = new JPanel(new GridLayout(playerValues.getShipListRows(), playerValues.getShipListColumns()));
-        downPanel.add(myShipsList, BorderLayout.EAST);
-        upPanel.add(enemyShipsList, BorderLayout.WEST);
+        allyShipsListPanel = new JPanel(new GridLayout(playerValues.getShipListRows(), playerValues.getShipListColumns()));
+        enemyShipsListPanel = new JPanel(new GridLayout(playerValues.getShipListRows(), playerValues.getShipListColumns()));
+        downPanel.add(allyShipsListPanel, BorderLayout.EAST);
+        upPanel.add(enemyShipsListPanel, BorderLayout.WEST);
         masterFrame.validate();
 
         gameControl = new GameControl(playerValues);
@@ -117,15 +117,15 @@ public class BattleshipMain implements ActionListener, Runnable {
 
             tempClass = Class.forName("gr.epp.thesis." + currentPlayer + "Block");
             Constructor tempShipConstructor = tempClass.getConstructor(int.class, boolean.class);
-            enemyShipsList.add(enemyPlayerLabel);
-            myShipsList.add(playerLabel);
+            enemyShipsListPanel.add(enemyPlayerLabel);
+            allyShipsListPanel.add(playerLabel);
             for (int i = 0; i < playerValues.getShipListSize() - 1; i++) {
                 GenericBlock enemyWarship = (GenericBlock) tempShipConstructor.newInstance(i, false);
                 enemyWarship.addMouseListener(gameControl);
-                enemyShipsList.add(enemyWarship);
+                enemyShipsListPanel.add(enemyWarship);
                 GenericBlock myWarship = (GenericBlock) tempShipConstructor.newInstance(i, true);
                 myWarship.addMouseListener(gameControl);
-                myShipsList.add(myWarship);
+                allyShipsListPanel.add(myWarship);
             }
 
             gameControl.setLateValues(enemyBoard, myBoard);
@@ -189,7 +189,7 @@ public class BattleshipMain implements ActionListener, Runnable {
         for (int i = 0; i < myBoard.getComponentCount(); i++) {
             myBoard.getComponent(i).removeMouseListener(gameControl);
         }
-        for (int i = 0; i < myShipsList.getComponentCount(); i++) {
+        for (int i = 0; i < allyShipsListPanel.getComponentCount(); i++) {
             //myShipsList.getComponent(i).removeMouseListener(gameControl);
         }
         System.out.println("Starting Game...");

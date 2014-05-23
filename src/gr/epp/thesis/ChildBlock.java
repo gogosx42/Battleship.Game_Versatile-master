@@ -44,8 +44,8 @@ public class ChildBlock extends GenericBlock {
     public void initializeShipsList() {
 
         if (this.player) {
-            setBorder(values.getAlliesShipListBorder());
-            setBackground(values.getAlliesShipListBackgroundColor());
+            setBorder(values.getAllyShipListBorder());
+            setBackground(values.getAllyShipListBackgroundColor());
             setOnShipsList(true);
             setIcon(values.getMyWarships().get(0));
             setTotalBlocks(1);
