@@ -17,6 +17,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -39,7 +40,7 @@ public class BattleshipMain implements ActionListener, Runnable {
     private JPanel upPanel = new JPanel();
     private JPanel decorPanel = new JPanel();
     private JPanel downPanel = new JPanel();
-    private JPanel myBoard = new JPanel();
+    private JPanel allyBoard = new JPanel();
     private JPanel enemyBoard = new JPanel();
     private static Class tempClass;
     private GameControl gameControl;
@@ -87,8 +88,8 @@ public class BattleshipMain implements ActionListener, Runnable {
         upPanel.add(enemyBoard, BorderLayout.CENTER);
         enemyBoard.setLayout(new GridLayout(this.playerValues.getGridRows(), this.playerValues.getGridColumns()));
         downPanel.setLayout(new BorderLayout(10, 0));
-        downPanel.add(myBoard, BorderLayout.CENTER);
-        myBoard.setLayout(new GridLayout(this.playerValues.getGridRows(), this.playerValues.getGridColumns()));
+        downPanel.add(allyBoard, BorderLayout.CENTER);
+        allyBoard.setLayout(new GridLayout(this.playerValues.getGridRows(), this.playerValues.getGridColumns()));
         allyShipsListPanel = new JPanel(new GridLayout(playerValues.getShipListRows(), playerValues.getShipListColumns()));
         enemyShipsListPanel = new JPanel(new GridLayout(playerValues.getShipListRows(), playerValues.getShipListColumns()));
         downPanel.add(allyShipsListPanel, BorderLayout.EAST);
@@ -105,7 +106,7 @@ public class BattleshipMain implements ActionListener, Runnable {
                 enemyBoard.add(enemySeaBlock);
                 GenericBlock mySeaBlock = (GenericBlock) tempClass.newInstance();
                 mySeaBlock.addMouseListener(gameControl);
-                myBoard.add(mySeaBlock);
+                allyBoard.add(mySeaBlock);
             }
 
             tempClass = Class.forName("gr.epp.thesis." + currentPlayer + "Label");
@@ -128,7 +129,7 @@ public class BattleshipMain implements ActionListener, Runnable {
                 allyShipsListPanel.add(myWarship);
             }
 
-            gameControl.setLateValues(enemyBoard, myBoard);
+            gameControl.setLateValues(enemyBoard, allyBoard);
 
             int portNumber = 1501;
             String host = "localhost";
@@ -186,8 +187,8 @@ public class BattleshipMain implements ActionListener, Runnable {
             }
         }
         //Temporary
-        for (int i = 0; i < myBoard.getComponentCount(); i++) {
-            myBoard.getComponent(i).removeMouseListener(gameControl);
+        for (int i = 0; i < allyBoard.getComponentCount(); i++) {
+            allyBoard.getComponent(i).removeMouseListener(gameControl);
         }
         for (int i = 0; i < allyShipsListPanel.getComponentCount(); i++) {
             //myShipsList.getComponent(i).removeMouseListener(gameControl);
