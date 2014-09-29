@@ -24,7 +24,7 @@ public class AdultBlock extends GenericBlock {
      */
     @Override
     public void initializeValues() {
-        this.values = new AdultValues();
+        setValues(new AdultValues());
     }
 
     /**
@@ -33,8 +33,8 @@ public class AdultBlock extends GenericBlock {
      */
     @Override
     public void initializeGridBlocks() {
-        setBackground(values.getSeaColor());
-        setIcon(values.getWaterIcon());
+        setBackground(getValues().getSeaColor());
+        setIcon(getValues().getWaterIcon());
     }
 
     /**
@@ -42,36 +42,36 @@ public class AdultBlock extends GenericBlock {
      */
     @Override
     public void initializeShipsList() {
-        if (this.player) {
-            setBorder(values.getAllyShipListBorder());
-            setBackground(values.getAllyShipListBackgroundColor());
+        if (this.isPlayer()) {
+            setBorder(getValues().getAllyShipListBorder());
+            setBackground(getValues().getAllyShipListBackgroundColor());
             setOnShipsList(true);
-            switch (this.index) {
+            switch (this.getIndex()) {
                 case (0):
-                    setIcon(values.getMyWarships().get(4 - index));
+                    setIcon(getValues().getAllyShipsIcons().get(4 - getIndex()));
                     setTotalBlocks(5);
                     break;
                 case (1):
-                    setIcon(values.getMyWarships().get(4 - index));
+                    setIcon(getValues().getAllyShipsIcons().get(4 - getIndex()));
                     setTotalBlocks(4);
                     break;
                 case (2):
-                    setIcon(values.getMyWarships().get(4 - index));
+                    setIcon(getValues().getAllyShipsIcons().get(4 - getIndex()));
                     setTotalBlocks(3);
                     break;
                 case (3):
-                    setIcon(values.getMyWarships().get(4 - index));
+                    setIcon(getValues().getAllyShipsIcons().get(4 - getIndex()));
                     setTotalBlocks(2);
                     break;
                 case (4):
-                    setIcon(values.getMyWarships().get(4 - index));
+                    setIcon(getValues().getAllyShipsIcons().get(4 - getIndex()));
                     setTotalBlocks(1);
                     break;
             }
         } else {
-            setBorder(values.getEnemyShipListBorder());
-            setBackground(values.getEnemyShipListBackgroundColor());
-            setIcon(values.getEnemyShipsIcons().get(4 - index));
+            setBorder(getValues().getEnemyShipListBorder());
+            setBackground(getValues().getEnemyShipListBackgroundColor());
+            setIcon(getValues().getEnemyShipsIcons().get(4 - getIndex()));
         }
     }
 

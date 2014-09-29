@@ -56,7 +56,7 @@ public class NumbersThread extends Thread implements Runnable {
             }
         } catch (IOException ex) {
 
-            //When a user disconnects, its position is emptied
+            //When a user disconnects, his position is emptied
             for (int i = 0; i < maxClientsCount; i++) {
                 if (threads[i] == this) {
                     threads[i] = null;

@@ -12,12 +12,12 @@ import javax.swing.JButton;
  */
 public abstract class GenericBlock extends JButton implements View {
 
-    protected GenericValues values;
-    protected boolean player; //True - Player, False - Enemy
-    protected int index;
-    protected int totalBlocks;
-    protected boolean warshipBlockOnGrid = false;
-    protected boolean onShipsList = false;
+    private GenericValues values;
+    private boolean player; //True - Player, False - Enemy
+    private int index;
+    private int totalBlocks;
+    private boolean warshipBlockOnGrid = false; //True if there is a ship on the current block
+    private boolean onShipsList = false;
 
     /**
      * Constructor needed for the seaBlocks Components.
@@ -62,10 +62,18 @@ public abstract class GenericBlock extends JButton implements View {
         this.totalBlocks = totalBlocks;
     }
 
+    /**
+     * 
+     * @return Whether there is a ship on the current block
+     */
     public boolean isWarshipBlockOnGrid() {
         return warshipBlockOnGrid;
     }
 
+    /**
+     * 
+     * @param warshipBlockOnGrid True if there is a ship on the current block, else false
+     */
     public void setWarshipBlockOnGrid(boolean warshipBlockOnGrid) {
         this.warshipBlockOnGrid = warshipBlockOnGrid;
     }
@@ -77,4 +85,29 @@ public abstract class GenericBlock extends JButton implements View {
     public void setOnShipsList(boolean onShipsList) {
         this.onShipsList = onShipsList;
     }
+
+    public GenericValues getValues() {
+        return values;
+    }
+
+    public void setValues(GenericValues values) {
+        this.values = values;
+    }
+
+    public boolean isPlayer() {
+        return player;
+    }
+
+    public void setPlayer(boolean player) {
+        this.player = player;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+    
 }

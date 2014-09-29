@@ -19,38 +19,55 @@ public abstract class GenericValues {
     /**
      * Values defined for a Player.
      */
-    protected int gridRows;
-    protected int gridColumns;
-    protected int frameWidth;
-    protected int frameHeight;
-    protected int BlocksTotalNumber; // Number of blocks in the grid available for ship placement
-    protected int shipsNumber;  // Number of ships available
-    protected Color seaColor;
-    protected Color alliesShipListBackgroundColor;
-    protected Color enemyShipListBackgroundColor;
-    protected LineBorder alliesShipListBorder;
-    protected LineBorder enemyShipListBorder;
-    protected ImageIcon waterIcon;
-    protected ImageIcon decorIcon;
-    protected ImageIcon alliesBanner;
-    protected ImageIcon enemyBanner;
-    protected Toolkit toolkit;
-    protected Image targetIcon;
-    protected ImageIcon successfulShotIcon;
-    protected ImageIcon missedShotIcon;
-    protected ArrayList<ImageIcon> alliesShipsIcons;
-    protected ArrayList<ImageIcon> enemyShipsIcons;
-    protected int shipBlocksTotalNumber;
-    protected int shipListSize;
-    protected int shipListRows;
-    protected int shipListColumns;
+    private int gridRows;
+    private int gridColumns;
+    private int frameWidth;
+    private int frameHeight;
+    private int BlocksTotalNumber; // Number of blocks in the grid available for ship placement
+    private int shipsNumber;  // Number of ships available
+    private Color seaColor;
+    private Color allyShipListBackgroundColor;
+    private Color enemyShipListBackgroundColor;
+    private LineBorder allyShipListBorder;
+    private LineBorder enemyShipListBorder;
+    private ImageIcon waterIcon;
+    private ImageIcon decorIcon;
+    private ImageIcon allyBanner;
+    private ImageIcon enemyBanner;
+    private Toolkit toolkit;
+    private Image targetIcon;
+    private ImageIcon successfulShotIcon;
+    private ImageIcon missedShotIcon;
+    private ArrayList<ImageIcon> allyShipsIcons;
+    private ArrayList<ImageIcon> enemyShipsIcons;
+    private int shipBlocksTotalNumber;
+    private int shipListSize;
+    private int shipListRows;
+    private int shipListColumns;
+
+    public GenericValues(int gridRows, int gridColumns) {
+        this.frameWidth = 525;
+        this.frameHeight = 1050;
+        this.toolkit = Toolkit.getDefaultToolkit();
+        this.gridRows = gridRows;
+        this.gridColumns = gridColumns;
+        this.seaColor = Color.CYAN.darker();
+        this.allyShipListBackgroundColor = Color.LIGHT_GRAY.darker();
+        this.enemyShipListBackgroundColor = Color.DARK_GRAY.darker();
+        this.allyShipListBorder = new LineBorder(Color.GREEN.darker(), 1, false);
+        this.enemyShipListBorder = new LineBorder(Color.RED.darker(), 1, false);
+        this.waterIcon = new ImageIcon("graphics/water.gif");
+        this.targetIcon = this.toolkit.getImage("graphics/sword.gif");
+        this.successfulShotIcon = new ImageIcon("graphics/fire.gif");
+        this.missedShotIcon = new ImageIcon("graphics/miss.gif");
+    }
 
     /**
      * Method needed for the placement of warships on the grid. Every
      * orientation.
      *
      * @param shipBlocksNumber Number of blocks of the current ship
-     * @param currentBlock 
+     * @param currentBlock
      * @param orientation 3 - horizontal, 6 - Vertical
      * @param sinked
      * @return
@@ -76,9 +93,7 @@ public abstract class GenericValues {
         return gridColumns;
     }
 
-    public void setGridColumns(int gridColumns) {
-        this.gridColumns = gridColumns;
-    }
+    public abstract void setGridColumns(int gridColumns);
 
     public int getFrameWidth() {
         return frameWidth;
@@ -120,12 +135,12 @@ public abstract class GenericValues {
         this.seaColor = seaColor;
     }
 
-    public Color getAlliesShipListBackgroundColor() {
-        return alliesShipListBackgroundColor;
+    public Color getAllyShipListBackgroundColor() {
+        return allyShipListBackgroundColor;
     }
 
-    public void setAlliesShipListBackgroundColor(Color alliesShipListBackgroundColor) {
-        this.alliesShipListBackgroundColor = alliesShipListBackgroundColor;
+    public void setAllyShipListBackgroundColor(Color allyShipListBackgroundColor) {
+        this.allyShipListBackgroundColor = allyShipListBackgroundColor;
     }
 
     public Color getEnemyShipListBackgroundColor() {
@@ -136,12 +151,12 @@ public abstract class GenericValues {
         this.enemyShipListBackgroundColor = enemyShipListBackgroundColor;
     }
 
-    public LineBorder getAlliesShipListBorder() {
-        return alliesShipListBorder;
+    public LineBorder getAllyShipListBorder() {
+        return allyShipListBorder;
     }
 
-    public void setAlliesShipListBorder(LineBorder alliesShipListBorder) {
-        this.alliesShipListBorder = alliesShipListBorder;
+    public void setAllyShipListBorder(LineBorder allyShipListBorder) {
+        this.allyShipListBorder = allyShipListBorder;
     }
 
     public LineBorder getEnemyShipListBorder() {
@@ -168,12 +183,12 @@ public abstract class GenericValues {
         this.decorIcon = decorIcon;
     }
 
-    public ImageIcon getAlliesBanner() {
-        return alliesBanner;
+    public ImageIcon getAllyBanner() {
+        return allyBanner;
     }
 
-    public void setAlliesBanner(ImageIcon alliesBanner) {
-        this.alliesBanner = alliesBanner;
+    public void setAllyBanner(ImageIcon allyBanner) {
+        this.allyBanner = allyBanner;
     }
 
     public ImageIcon getEnemyBanner() {
@@ -192,11 +207,11 @@ public abstract class GenericValues {
         this.toolkit = toolkit;
     }
 
-    public Image getTarget() {
+    public Image getTargetIcon() {
         return targetIcon;
     }
 
-    public void setTarget(Image target) {
+    public void setTargetIcon(Image target) {
         this.targetIcon = target;
     }
 
@@ -216,12 +231,12 @@ public abstract class GenericValues {
         this.missedShotIcon = missedShotIcon;
     }
 
-    public ArrayList<ImageIcon> getMyWarships() {
-        return alliesShipsIcons;
+    public ArrayList<ImageIcon> getAllyShipsIcons() {
+        return allyShipsIcons;
     }
 
-    public void setMyWarships(ArrayList<ImageIcon> myWarships) {
-        this.alliesShipsIcons = myWarships;
+    public void setAllyShipsIcons(ArrayList<ImageIcon> myWarships) {
+        this.allyShipsIcons = myWarships;
     }
 
     public ArrayList<ImageIcon> getEnemyShipsIcons() {

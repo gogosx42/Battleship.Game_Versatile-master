@@ -1,11 +1,8 @@
 package gr.epp.thesis;
 
 import gr.epp.thesis.api.GenericValues;
-import java.awt.Color;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
-import javax.swing.border.LineBorder;
 
 /**
  * @author tsoutsas.yiorgos & vigkos.ioannis
@@ -20,38 +17,32 @@ public class AdultValues extends GenericValues {
      * Values defined for the Adult Player.
      */
     public AdultValues() {
-        this.gridRows = 10;
-        this.gridColumns = 10;
-        this.frameWidth = 450;
-        this.frameHeight = 900;
-        this.shipsNumber = 5;
-        this.seaColor = Color.CYAN;
-        this.allyShipListBackgroundColor = Color.LIGHT_GRAY;
-        this.enemyShipListBackgroundColor = Color.DARK_GRAY;
-        this.allyShipListBorder = new LineBorder(Color.GREEN.darker(), 1, false);
-        this.enemyShipListBorder = new LineBorder(Color.RED.darker(), 1, false);
-        this.waterIcon = new ImageIcon("graphics/water.gif");
-        this.decorIcon = new ImageIcon("graphics/adultDecorLabel.png");
-        this.allyBanner = new ImageIcon("graphics/myFleetAdultIcon.png");
-        this.enemyBanner = new ImageIcon("graphics/enemyFleetAdultIcon.png");
-        this.toolkit = Toolkit.getDefaultToolkit();
-        this.targetIcon = toolkit.getImage("graphics/target.gif");
-        this.successfulShotIcon = new ImageIcon("graphics/fire.gif");
-        this.missedShotIcon = new ImageIcon("graphics/miss.gif");
-        this.allyShipsIcons = new ArrayList<>();
-        for (int i = 0; i < shipsNumber; i++) {
-            this.allyShipsIcons.add(new ImageIcon("graphics/modernWarship" + i + ".gif"));
+        super(10, 10);
+        this.setShipsNumber(5);
+        this.setFrameWidth(450);
+        this.setFrameHeight(900);
+        this.setDecorIcon(new ImageIcon("graphics/adultDecorLabel.png"));
+        this.setAllyBanner(new ImageIcon("graphics/myFleetAdultIcon.png"));
+        this.setEnemyBanner(new ImageIcon("graphics/enemyFleetAdultIcon.png"));
+        this.setAllyShipsIcons(new ArrayList<ImageIcon>());
+        for (int i = 0; i < this.getShipsNumber(); i++) {
+            this.getAllyShipsIcons().add(new ImageIcon("graphics/modernWarship" + i + ".gif"));
         }
-        this.enemyShipsIcons = new ArrayList<>();
-        this.enemyShipsIcons = allyShipsIcons;
-        this.shipBlocksTotalNumber = 15;
-        this.shipListSize = 6;
-        this.shipListRows = 6;
-        this.shipListColumns = 1;
+        this.setEnemyShipsIcons(new ArrayList<ImageIcon>());
+        this.setEnemyShipsIcons(this.getAllyShipsIcons());
+        setShipBlocksTotalNumber(15);
+        setShipListSize(6);
+        setShipListRows(6);
+        setShipListColumns(1);
     }
 
     @Override
     public int getBlocksTotalNumber() {
-        return this.gridRows * this.gridColumns;
+        return this.getGridRows() * this.getGridColumns();
+    }
+
+    @Override
+    public void setGridColumns(int gridColumns) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

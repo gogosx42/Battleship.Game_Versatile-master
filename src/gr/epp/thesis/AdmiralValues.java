@@ -1,11 +1,8 @@
 package gr.epp.thesis;
 
 import gr.epp.thesis.api.GenericValues;
-import java.awt.Color;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
-import javax.swing.border.LineBorder;
 
 /**
  * @author tsoutsas.yiorgos & vigkos.ioannis
@@ -20,38 +17,33 @@ public class AdmiralValues extends GenericValues {
      * Values defined for the Adult Player.
      */
     public AdmiralValues() {
-        this.gridRows = 15;
-        this.gridColumns = 15;
-        this.frameWidth = 525;
-        this.frameHeight = 1050;
-        this.shipsNumber = 10;
-        this.seaColor = Color.CYAN.darker();
-        this.allyShipListBackgroundColor = Color.LIGHT_GRAY.darker();
-        this.enemyShipListBackgroundColor = Color.DARK_GRAY.darker();
-        this.allyShipListBorder = new LineBorder(Color.GREEN.darker(), 1, false);
-        this.enemyShipListBorder = new LineBorder(Color.RED.darker(), 1, false);
-        this.waterIcon = new ImageIcon("graphics/water.gif");
-        this.decorIcon = new ImageIcon("graphics/admiralDecorLabel.png");
-        this.allyBanner = new ImageIcon("graphics/myFleetAdmiralIcon.png");
-        this.enemyBanner = new ImageIcon("graphics/enemyFleetAdmiralIcon.png");
-        this.toolkit = Toolkit.getDefaultToolkit();
-        this.targetIcon = toolkit.getImage("graphics/sword.gif");
-        this.successfulShotIcon = new ImageIcon("graphics/fire.gif");
-        this.missedShotIcon = new ImageIcon("graphics/miss.gif");
-        this.allyShipsIcons = new ArrayList<>();
-        for (int i = 0; i < shipsNumber; i++) {
-            this.allyShipsIcons.add(new ImageIcon("graphics/modernWarship" + i + ".gif"));
+        super(10, 10);
+        this.setShipsNumber(10);
+        this.setFrameHeight(1050);
+        this.setFrameWidth(525);
+        
+        this.setAllyShipsIcons(new ArrayList<ImageIcon>());
+        for (int i = 0; i < this.getShipsNumber(); i++) {
+            getAllyShipsIcons().add(new ImageIcon("graphics/modernWarship" + i + ".gif"));
         }
-        this.enemyShipsIcons = new ArrayList<>();
-        this.enemyShipsIcons = allyShipsIcons;
-        this.shipBlocksTotalNumber = 28;
-        this.shipListSize = 11;
-        this.shipListRows = 11;
-        this.shipListColumns = 1;
+        this.setDecorIcon(new ImageIcon("graphics/admiralDecorLabel.png"));
+        this.setAllyBanner(new ImageIcon("graphics/myFleetAdmiralIcon.png"));
+        this.setEnemyBanner(new ImageIcon("graphics/enemyFleetAdmiralIcon.png"));
+        setEnemyShipsIcons(new ArrayList<ImageIcon>());
+        setEnemyShipsIcons(this.getAllyShipsIcons());
+        setShipBlocksTotalNumber(28);
+        setShipListSize(11);
+        setShipListRows(11);
+        setShipListColumns(1);
     }
 
     @Override
     public int getBlocksTotalNumber() {
-        return this.gridRows * this.gridColumns;
+        return this.getGridRows() * this.getGridColumns();
+    }
+
+    @Override
+    public void setGridColumns(int gridColumns) {
+        this.setGridColumns(15);
     }
 }

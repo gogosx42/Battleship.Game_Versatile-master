@@ -16,7 +16,7 @@ public abstract class GenericLabel extends JLabel implements View {
 
     protected GenericValues values;
     protected ImageIcon playerLabel;
-    protected boolean player;
+    protected boolean player;//True - Player, False - Enemy
     protected Border border;
 
     /**

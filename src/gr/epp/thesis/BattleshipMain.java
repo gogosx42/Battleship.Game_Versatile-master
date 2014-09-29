@@ -33,6 +33,7 @@ public class BattleshipMain implements ActionListener, Runnable {
 
     private GenericValues playerValues;
     private JFrame compoBoxFrame = new JFrame("Type of Player: ");
+    private JFrame serverFrame = new JFrame("Server");
     private String[] playerType = {"Adult", "Child", "Admiral"};
     private JComboBox playerTypeBox = new JComboBox(playerType);
     private String currentPlayer = null;

@@ -24,7 +24,7 @@ public class AdmiralBlock extends GenericBlock {
      */
     @Override
     public void initializeValues() {
-        this.values = new AdmiralValues();
+        this.setValues(new AdmiralValues());
     }
 
     /**
@@ -33,8 +33,8 @@ public class AdmiralBlock extends GenericBlock {
      */
     @Override
     public void initializeGridBlocks() {
-        setBackground(values.getSeaColor());
-        setIcon(values.getWaterIcon());
+        setBackground(getValues().getSeaColor());
+        setIcon(getValues().getWaterIcon());
     }
 
     /**
@@ -42,92 +42,92 @@ public class AdmiralBlock extends GenericBlock {
      */
     @Override
     public void initializeShipsList() {
-        if (this.player) {
-            setBorder(values.getAllyShipListBorder());
-            setBackground(values.getAllyShipListBackgroundColor());
+        if (this.isPlayer()) {
+            setBorder(getValues().getAllyShipListBorder());
+            setBackground(getValues().getAllyShipListBackgroundColor());
             setOnShipsList(true);
-            switch (this.index) {
+            switch (this.getIndex()) {
                 case (0):
-                    setIcon(values.getMyWarships().get(4));
+                    setIcon(getValues().getAllyShipsIcons().get(4));
                     setTotalBlocks(5);
                     break;
                 case (1):
-                    setIcon(values.getMyWarships().get(3));
+                    setIcon(getValues().getAllyShipsIcons().get(3));
                     setTotalBlocks(4);
                     break;
                 case (2):
-                    setIcon(values.getMyWarships().get(3));
+                    setIcon(getValues().getAllyShipsIcons().get(3));
                     setTotalBlocks(4);
                     break;
                 case (3):
-                    setIcon(values.getMyWarships().get(2));
+                    setIcon(getValues().getAllyShipsIcons().get(2));
                     setTotalBlocks(3);
                     break;
                 case (4):
-                    setIcon(values.getMyWarships().get(2));
+                    setIcon(getValues().getAllyShipsIcons().get(2));
                     setTotalBlocks(3);
                     break;
                 case (5):
-                    setIcon(values.getMyWarships().get(2));
+                    setIcon(getValues().getAllyShipsIcons().get(2));
                     setTotalBlocks(3);
                     break;
                 case (6):
-                    setIcon(values.getMyWarships().get(1));
+                    setIcon(getValues().getAllyShipsIcons().get(1));
                     setTotalBlocks(2);
                     break;
                 case (7):
-                    setIcon(values.getMyWarships().get(1));
+                    setIcon(getValues().getAllyShipsIcons().get(1));
                     setTotalBlocks(2);
                     break;
                 case (8):
-                    setIcon(values.getMyWarships().get(0));
+                    setIcon(getValues().getAllyShipsIcons().get(0));
                     setTotalBlocks(1);
                     break;
                 case (9):
-                    setIcon(values.getMyWarships().get(0));
+                    setIcon(getValues().getAllyShipsIcons().get(0));
                     setTotalBlocks(1);
                     break;
                 case (10):
-                    setIcon(values.getMyWarships().get(0));
+                    setIcon(getValues().getAllyShipsIcons().get(0));
                     setTotalBlocks(1);
                     break;
             }
         } else {
-            setBorder(values.getEnemyShipListBorder());
-            setBackground(values.getEnemyShipListBackgroundColor());
-            switch (index) {
+            setBorder(getValues().getEnemyShipListBorder());
+            setBackground(getValues().getEnemyShipListBackgroundColor());
+            switch (getIndex()) {
                 case (0):
-                    setIcon(values.getEnemyShipsIcons().get(4));
+                    setIcon(getValues().getEnemyShipsIcons().get(4));
                     break;
                 case (1):
-                    setIcon(values.getEnemyShipsIcons().get(3));
+                    setIcon(getValues().getEnemyShipsIcons().get(3));
                     break;
                 case (2):
-                    setIcon(values.getEnemyShipsIcons().get(3));
+                    setIcon(getValues().getEnemyShipsIcons().get(3));
                     break;
                 case (3):
-                    setIcon(values.getEnemyShipsIcons().get(2));
+                    setIcon(getValues().getEnemyShipsIcons().get(2));
                     break;
                 case (4):
-                    setIcon(values.getEnemyShipsIcons().get(2));
+                    setIcon(getValues().getEnemyShipsIcons().get(2));
                     break;
                 case (5):
-                    setIcon(values.getEnemyShipsIcons().get(2));
+                    setIcon(getValues().getEnemyShipsIcons().get(2));
                     break;
                 case (6):
-                    setIcon(values.getEnemyShipsIcons().get(1));
+                    setIcon(getValues().getEnemyShipsIcons().get(1));
                     break;
                 case (7):
-                    setIcon(values.getEnemyShipsIcons().get(1));
+                    setIcon(getValues().getEnemyShipsIcons().get(1));
                     break;
                 case (8):
-                    setIcon(values.getEnemyShipsIcons().get(0));
+                    setIcon(getValues().getEnemyShipsIcons().get(0));
                     break;
                 case (9):
-                    setIcon(values.getEnemyShipsIcons().get(0));
+                    setIcon(getValues().getEnemyShipsIcons().get(0));
                     break;
                 case (10):
-                    setIcon(values.getEnemyShipsIcons().get(0));
+                    setIcon(getValues().getEnemyShipsIcons().get(0));
                     break;
             }
         }

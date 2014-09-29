@@ -375,7 +375,7 @@ public class GameControl implements MouseListener, Runnable {
             }
         }
         if (enteredBlock.getParent().equals(enemyBoard)) {
-            Cursor targetCursor = playerValues.getToolkit().createCustomCursor(playerValues.getTarget(), cursorHotSpot, "Cursor");
+            Cursor targetCursor = playerValues.getToolkit().createCustomCursor(playerValues.getTargetIcon(), cursorHotSpot, "Cursor");
             enemyBoard.setCursor(targetCursor);
         }
     }

@@ -24,7 +24,7 @@ public class ChildBlock extends GenericBlock {
      */
     @Override
     public void initializeValues() {
-        this.values = new ChildValues();
+        this.setValues(new ChildValues());
     }
 
     /**
@@ -33,8 +33,8 @@ public class ChildBlock extends GenericBlock {
      */
     @Override
     public void initializeGridBlocks() {
-        setBackground(values.getSeaColor());
-        setIcon(values.getWaterIcon());
+        setBackground(getValues().getSeaColor());
+        setIcon(getValues().getWaterIcon());
     }
 
     /**
@@ -43,16 +43,16 @@ public class ChildBlock extends GenericBlock {
     @Override
     public void initializeShipsList() {
 
-        if (this.player) {
-            setBorder(values.getAllyShipListBorder());
-            setBackground(values.getAllyShipListBackgroundColor());
+        if (this.isPlayer()) {
+            setBorder(getValues().getAllyShipListBorder());
+            setBackground(getValues().getAllyShipListBackgroundColor());
             setOnShipsList(true);
-            setIcon(values.getMyWarships().get(0));
+            setIcon(getValues().getAllyShipsIcons().get(0));
             setTotalBlocks(1);
         } else {
-            setBorder(values.getEnemyShipListBorder());
-            setBackground(values.getEnemyShipListBackgroundColor());
-            setIcon(values.getEnemyShipsIcons().get(0));
+            setBorder(getValues().getEnemyShipListBorder());
+            setBackground(getValues().getEnemyShipListBackgroundColor());
+            setIcon(getValues().getEnemyShipsIcons().get(0));
         }
     }
 
