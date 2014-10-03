@@ -5,6 +5,8 @@ import gr.epp.thesis.api.GenericLabel;
 import gr.epp.thesis.api.GenericValues;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,10 +19,16 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  * @author tsoutsas.yiorgos & vigkos.ioannis
@@ -32,9 +40,13 @@ import javax.swing.JPanel;
 public class BattleshipMain implements ActionListener, Runnable {
 
     private GenericValues playerValues;
-    private JFrame compoBoxFrame = new JFrame("Type of Player: ");
-    private JFrame serverFrame = new JFrame("Server");
+    private JFrame startingFrame = new JFrame("Battleship Game");
+    private JLabel welcomeImage = new JLabel(new ImageIcon("graphics/admiralDecorLabel.png"));
+    //private JPanel startingPanel = new JPanel(new GridLayout(2, 2));
+    private JLabel playerTitle = new JLabel("Conquer the seas as..", SwingConstants.CENTER);
+    private JLabel observerTitle = new JLabel("Observe an ongoing battle!", SwingConstants.CENTER);
     private String[] playerType = {"Adult", "Child", "Admiral"};
+    private JButton observerButton = new JButton("Observer");
     private JComboBox playerTypeBox = new JComboBox(playerType);
     private String currentPlayer = null;
     private static JFrame masterFrame = new JFrame("Battleship Game");
@@ -57,14 +69,50 @@ public class BattleshipMain implements ActionListener, Runnable {
      * Player Selection
      */
     public BattleshipMain() {
+        startingFrame.setVisible(true);
+        startingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        startingFrame.setLocationRelativeTo(null);
+        startingFrame.setSize(525, 350);
+        startingFrame.setResizable(true);
+        startingFrame.setLayout(new BorderLayout());
+        startingFrame.add(welcomeImage);
+
+        welcomeImage.setLayout(new GridLayout(2, 2, 20, 20));
+        welcomeImage.add(playerTitle);
+        welcomeImage.add(observerTitle);
+        welcomeImage.add(playerTypeBox);
+        welcomeImage.add(observerButton);
+
+        playerTitle.setFont(new Font("Verdana", Font.BOLD, 14));
+        playerTitle.setForeground(Color.WHITE);
+
+        observerTitle.setFont(new Font("Verdana", Font.BOLD, 14));
+        observerTitle.setForeground(Color.WHITE);
+        //selectObserverTitle.setLayout(new FlowLayout());
+        //selectObserverTitle.add(new JButton("VS"));
+
+        playerTypeBox.setSize(50, 50);
         playerTypeBox.setSelectedIndex(0);
         playerTypeBox.addActionListener(this);
-        compoBoxFrame.add(playerTypeBox);
-        compoBoxFrame.setVisible(true);
-        compoBoxFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        compoBoxFrame.setLocationRelativeTo(null);
-        compoBoxFrame.setSize(250, 80);
-        compoBoxFrame.setResizable(true);
+        playerTypeBox.setOpaque(false);
+        playerTypeBox.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList list, Object value,
+                    int index, boolean isSelected, boolean cellHasFocus) {
+                JComponent result = (JComponent) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                result.setOpaque(false);
+                return result;
+            }
+        });
+        playerTypeBox.setFont(new Font("Verdana", Font.BOLD, 14));
+        playerTypeBox.setForeground(Color.red);
+
+        observerButton.setFont(new Font("Verdana", Font.BOLD, 14));
+        observerButton.setForeground(Color.WHITE);
+        observerButton.setEnabled(false);
+        observerButton.setOpaque(false);
+        observerButton.setContentAreaFilled(false);
+        observerButton.setBorderPainted(true);
     }
 
     /**
@@ -163,7 +211,7 @@ public class BattleshipMain implements ActionListener, Runnable {
     public void actionPerformed(ActionEvent e) {
         JComboBox playerTypeBox = (JComboBox) e.getSource();
         currentPlayer = (String) playerTypeBox.getSelectedItem();
-        compoBoxFrame.dispose();
+        startingFrame.dispose();
         try {
             tempClass = Class.forName("gr.epp.thesis." + currentPlayer + "Values");
             playerValues = (GenericValues) tempClass.newInstance();
