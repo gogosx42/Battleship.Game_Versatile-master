@@ -1,6 +1,8 @@
 package gr.epp.thesis;
 
 import gr.epp.thesis.api.GenericBlock;
+import java.awt.Font;
+import java.awt.TextArea;
 
 /**
  * @author tsoutsas.yiorgos & vigkos.ioannis

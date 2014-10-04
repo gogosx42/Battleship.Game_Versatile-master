@@ -6,6 +6,8 @@ import gr.epp.thesis.api.GenericValues;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -41,13 +43,14 @@ public class BattleshipMain implements ActionListener, Runnable {
 
     private GenericValues playerValues;
     private JFrame startingFrame = new JFrame("Battleship Game");
-    private JLabel welcomeImage = new JLabel(new ImageIcon("graphics/admiralDecorLabel.png"));
-    //private JPanel startingPanel = new JPanel(new GridLayout(2, 2));
+    private JLabel backround = new JLabel(new ImageIcon("graphics/startingBackround.png"));
+    private JPanel tempPanelWest = new JPanel(new GridLayout(6, 1, 10, 5));
+    private JPanel tempPanelEast = new JPanel(new GridLayout(6, 1, 10, 5));
     private JLabel playerTitle = new JLabel("Conquer the seas as..", SwingConstants.CENTER);
-    private JLabel observerTitle = new JLabel("Observe an ongoing battle!", SwingConstants.CENTER);
     private String[] playerType = {"Adult", "Child", "Admiral"};
-    private JButton observerButton = new JButton("Observer");
     private JComboBox playerTypeBox = new JComboBox(playerType);
+    private JLabel observerTitle = new JLabel("Currently watching a game: ", SwingConstants.CENTER);
+    private JButton observerButton = new JButton("Watch an ongoing battle..");
     private String currentPlayer = null;
     private static JFrame masterFrame = new JFrame("Battleship Game");
     private JPanel upPanel = new JPanel();
@@ -72,26 +75,30 @@ public class BattleshipMain implements ActionListener, Runnable {
         startingFrame.setVisible(true);
         startingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         startingFrame.setLocationRelativeTo(null);
-        startingFrame.setSize(525, 350);
-        startingFrame.setResizable(true);
-        startingFrame.setLayout(new BorderLayout());
-        startingFrame.add(welcomeImage);
+        startingFrame.setSize(500, 334);
+        startingFrame.setResizable(false);
+        startingFrame.add(backround);
 
-        welcomeImage.setLayout(new GridLayout(2, 2, 20, 20));
-        welcomeImage.add(playerTitle);
-        welcomeImage.add(observerTitle);
-        welcomeImage.add(playerTypeBox);
-        welcomeImage.add(observerButton);
+        backround.setLayout(new GridLayout(1, 2, 20, 20));
+        backround.add(tempPanelWest);
+        backround.add(tempPanelEast);
+
+        tempPanelWest.setOpaque(false);
+        setTempCells(tempPanelWest, 3, false);
+        tempPanelWest.add(playerTitle);
+        tempPanelWest.add(playerTypeBox);
+        tempPanelEast.setOpaque(false);
+        setTempCells(tempPanelEast, 3, false);
+        tempPanelEast.add(observerTitle);
+        setTempCells(tempPanelEast, 1, true);
+        tempPanelEast.add(observerButton);
 
         playerTitle.setFont(new Font("Verdana", Font.BOLD, 14));
-        playerTitle.setForeground(Color.WHITE);
+        playerTitle.setForeground(Color.BLACK);
 
         observerTitle.setFont(new Font("Verdana", Font.BOLD, 14));
-        observerTitle.setForeground(Color.WHITE);
-        //selectObserverTitle.setLayout(new FlowLayout());
-        //selectObserverTitle.add(new JButton("VS"));
+        observerTitle.setForeground(Color.BLACK);
 
-        playerTypeBox.setSize(50, 50);
         playerTypeBox.setSelectedIndex(0);
         playerTypeBox.addActionListener(this);
         playerTypeBox.setOpaque(false);
@@ -108,11 +115,36 @@ public class BattleshipMain implements ActionListener, Runnable {
         playerTypeBox.setForeground(Color.red);
 
         observerButton.setFont(new Font("Verdana", Font.BOLD, 14));
-        observerButton.setForeground(Color.WHITE);
+        observerButton.setForeground(Color.BLACK);
         observerButton.setEnabled(false);
         observerButton.setOpaque(false);
         observerButton.setContentAreaFilled(false);
         observerButton.setBorderPainted(true);
+    }
+
+    /**
+     * A method to add temporary cells to a grid. Just to consume grid space of
+     * a panel.
+     *
+     * @param parentPanel
+     * @param consCells
+     */
+    public final void setTempCells(JPanel parentPanel, int consCells, boolean darker) {
+        for (int i = 0; i < consCells; i++) {
+            JPanel temp = new JPanel();
+            if (darker) {
+                temp.setBackground(new Color(0, 0, 60, 150));
+                temp.setLayout(new FlowLayout());
+                for (int j = 0; j < 10; j++) {
+                    JButton tempB = new JButton("" + j);
+                    tempB.setPreferredSize(new Dimension(14, 14));
+                    temp.add(tempB);
+                }
+            } else {
+                temp.setOpaque(false);
+            }
+            parentPanel.add(temp);
+        }
     }
 
     /**
@@ -243,6 +275,7 @@ public class BattleshipMain implements ActionListener, Runnable {
             //myShipsList.getComponent(i).removeMouseListener(gameControl);
         }
         System.out.println("Starting Game...");
+        observerButton.setEnabled(true);
     }
 
     public static void main(String[] args) {

@@ -74,6 +74,7 @@ public abstract class GenericValues {
      */
     public ImageIcon getGridPieces(int shipBlocksNumber, int currentBlock, int orientation, boolean sinked) {
         if (sinked) {
+            System.out.println("SINK!");
             return (new ImageIcon("graphics/gridPieces/Sink_" + shipBlocksNumber + "_" + currentBlock + "_" + orientation + ".gif"));
         } else {
             return (new ImageIcon("graphics/gridPieces/" + shipBlocksNumber + "_" + currentBlock + "_" + orientation + ".gif"));

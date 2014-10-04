@@ -4,6 +4,7 @@ import gr.epp.thesis.api.GenericBlock;
 import gr.epp.thesis.api.GenericValues;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -123,6 +124,7 @@ public class GameControl implements MouseListener, Runnable {
     public void warshipBlockOnGrid(GenericBlock warshipBlock, int currentBlock) {
         this.l = 0;
         warshipBlock.setIcon(playerValues.getGridPieces(shipBlocksNumber, currentBlock, orientation, false));
+        System.out.println("" + warshipBlock.getName());
         warshipBlock.setBackground(seaColor);
         warshipBlock.setWarshipBlockOnGrid(true);
         currentWarship.setEnabled(false);
@@ -173,9 +175,9 @@ public class GameControl implements MouseListener, Runnable {
      * is true, then a ship is above buttons. If Exiting is true, then the
      * SeaBlock, has to repaint itself because the warship is elsewhere. Values
      * of 3 & 6, about orientation means orientation of the warship clockwise.
-     * 
+     *
      * @param hovering Ship is hovering over blocks
-     * @param exiting 
+     * @param exiting
      */
     public void battleFormations(boolean hovering, boolean exiting) {
         int currentBlock = 0;
@@ -190,6 +192,7 @@ public class GameControl implements MouseListener, Runnable {
                         tempSeaBlock.setIcon(waterIcon);
                         tempSeaBlock.setBackground(seaColor);
                     } else {
+                        tempSeaBlock.setName("" + shipBlocksNumber + currentBlock + orientation);
                         warshipBlockOnGrid(tempSeaBlock, currentBlock);
                     }
                     currentBlock++;
@@ -205,8 +208,8 @@ public class GameControl implements MouseListener, Runnable {
                         tempSeaBlock.setIcon(waterIcon);
                         tempSeaBlock.setBackground(seaColor);
                     } else {
+                        tempSeaBlock.setName("" + shipBlocksNumber + currentBlock + orientation);
                         warshipBlockOnGrid(tempSeaBlock, currentBlock);
-//                        break;
                     }
                     currentBlock++;
                 }
@@ -228,8 +231,8 @@ public class GameControl implements MouseListener, Runnable {
     }
 
     /**
-     * On run method, gameControl class receives enemy's successfulShotIcons, and responds if
- they were successful or missedShotIconed.
+     * On run method, gameControl class receives enemy's successfulShotIcons,
+     * and responds if they were successful or missedShotIconed.
      */
     @Override
     public void run() {
@@ -246,6 +249,7 @@ public class GameControl implements MouseListener, Runnable {
                     if (playerHitBlock.isWarshipBlockOnGrid()) {
                         out.println("success:" + hitBlock);
                         playerHitBlock.setIcon(successfulShotIcon);
+                        checkDestruction(playerHitBlock);
                     } else {
                         out.println("missed:" + hitBlock);
                         playerHitBlock.setIcon(missedShotIcon);
@@ -409,5 +413,16 @@ public class GameControl implements MouseListener, Runnable {
                 alliesBoard.validate();
             }
         }
+    }
+
+    public void checkDestruction(GenericBlock hittenBlock) {
+        int tempId = Integer.parseInt(hittenBlock.getName());
+        int tempOrient = tempId % 10;
+        int tempCurrBlock = (tempId % 100) / 10;
+        tempId = tempId / 100;
+
+        //playerValues.getAllyShipsIcons().;
+        
+        hittenBlock.setIcon(playerValues.getGridPieces(tempId, tempCurrBlock, tempOrient, true));
     }
 }
