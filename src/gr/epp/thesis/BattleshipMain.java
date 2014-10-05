@@ -210,7 +210,7 @@ public class BattleshipMain implements ActionListener, Runnable {
                 allyShipsListPanel.add(myWarship);
             }
 
-            gameControl.setLateValues(enemyBoard, allyBoard);
+            gameControl.setLateValues(enemyBoard, allyBoard, enemyShipsListPanel);
 
             int portNumber = 1501;
             String host = "localhost";

@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -37,6 +39,7 @@ public class GameControl implements MouseListener, Runnable {
     private int shipBlocksNumber = 0;
     private JPanel enemyBoard = null;
     private JPanel alliesBoard = null;
+    private JPanel enemyShipsListPanel = null;
     private boolean horizontal = true;
     private GenericBlock currentWarship;
     private ArrayList<GenericBlock> warshipBlocksList;
@@ -57,6 +60,8 @@ public class GameControl implements MouseListener, Runnable {
     private static int totalHits = 0;
     private static int l = 0;
 
+    private int a, b, c, d, tempId2 = 0;
+
     public GameControl(GenericValues playerValues) {
         this.playerValues = playerValues;               //Current player values.
         this.gridRows = playerValues.getGridRows();
@@ -73,9 +78,10 @@ public class GameControl implements MouseListener, Runnable {
     /**
      * Values needed to continue the game.
      */
-    public void setLateValues(JPanel enemyBoard, JPanel myBoard) {
+    public void setLateValues(JPanel enemyBoard, JPanel myBoard, JPanel enemyShipsListPanel) {
         this.enemyBoard = enemyBoard;
         this.alliesBoard = myBoard;
+        this.enemyShipsListPanel = enemyShipsListPanel;
         activateBoard(enemyBoard, false);
     }
 
@@ -249,7 +255,7 @@ public class GameControl implements MouseListener, Runnable {
                     if (playerHitBlock.isWarshipBlockOnGrid()) {
                         out.println("success:" + hitBlock);
                         playerHitBlock.setIcon(successfulShotIcon);
-                        checkDestruction(playerHitBlock);
+                        checkDestruction(playerHitBlock, hitBlock);
                     } else {
                         out.println("missed:" + hitBlock);
                         playerHitBlock.setIcon(missedShotIcon);
@@ -415,14 +421,55 @@ public class GameControl implements MouseListener, Runnable {
         }
     }
 
-    public void checkDestruction(GenericBlock hittenBlock) {
+    public void checkDestruction(GenericBlock hittenBlock, int boardIndex) {
         int tempId = Integer.parseInt(hittenBlock.getName());
         int tempOrient = tempId % 10;
         int tempCurrBlock = (tempId % 100) / 10;
         tempId = tempId / 100;
 
-        //playerValues.getAllyShipsIcons().;
-        
         hittenBlock.setIcon(playerValues.getGridPieces(tempId, tempCurrBlock, tempOrient, true));
+
+        System.out.println(" " + boardIndex);
+        JButton tmpb = (JButton) enemyBoard.getComponent(boardIndex);
+        String oo;
+        oo = tmpb.getName();
+        tempId2 = Integer.parseInt(oo);
+        System.out.println(" " + tempId2);
+        //int tempId2 = Integer.parseInt(enemyBoard.getComponent(boardIndex).getName());
+        switch (tempId2) {
+            case (1):
+                JButton temp = (JButton) enemyShipsListPanel.getComponent(5);
+                temp.setIcon(new ImageIcon("graphics/modernWarship" + (tempId2 - 1) + "Sinked.gif"));
+                break;
+            case (2):
+                a++;
+                if (a == tempId2) {
+                    JButton temp2 = (JButton) enemyShipsListPanel.getComponent(4);
+                    temp2.setIcon(new ImageIcon("graphics/modernWarship" + (tempId2 - 1) + "Sinked.gif"));
+                }
+                break;
+            case (3):
+                b++;
+                if (b == tempId2) {
+                    JButton temp3 = (JButton) enemyShipsListPanel.getComponent(3);
+                    temp3.setIcon(new ImageIcon("graphics/modernWarship" + (tempId2 - 1) + "Sinked.gif"));
+                }
+                break;
+            case (4):
+                c++;
+                if (c == tempId2) {
+                    JButton temp4 = (JButton) enemyShipsListPanel.getComponent(2);
+                    temp4.setIcon(new ImageIcon("graphics/modernWarship" + (tempId2 - 1) + "Sinked.gif"));
+                }
+                break;
+            case (5):
+                d++;
+                if (d == tempId2) {
+                    JButton temp5 = (JButton) enemyShipsListPanel.getComponent(1);
+                    temp5.setIcon(new ImageIcon("graphics/modernWarship" + (tempId2 - 1) + "Sinked.gif"));
+                }
+                break;
+        }
+        tempId2 = 0;
     }
 }
