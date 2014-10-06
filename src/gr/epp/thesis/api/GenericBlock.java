@@ -70,6 +70,9 @@ public abstract class GenericBlock extends JButton implements View {
         return warshipBlockOnGrid;
     }
 
+    public String getWarshipName(){
+        return getName();
+    }
     /**
      * 
      * @param warshipBlockOnGrid True if there is a ship on the current block, else false

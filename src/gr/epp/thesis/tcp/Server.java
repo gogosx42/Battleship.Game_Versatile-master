@@ -17,6 +17,7 @@ public class Server {
     private static Socket clientSocket = null;
     private static final int maxClientsCount = 2; //Maximum number of connections supported by the server.
     private static final NumbersThread[] threads = new NumbersThread[maxClientsCount];
+    private static final boolean[] playerTypes = new boolean[threads.length];
 
     public static void main(String[] args) {
         int portNumber = 1501;
@@ -44,7 +45,7 @@ public class Server {
                 System.out.println("User Connected in port: " + portNumber);
                 for (int i = 0; i < maxClientsCount; i++) {
                     if (threads[i] == null) {
-                        (threads[i] = new NumbersThread(clientSocket, threads)).start();
+                        (threads[i] = new NumbersThread(clientSocket, threads, playerTypes)).start();
                         break;
                     }
                 }

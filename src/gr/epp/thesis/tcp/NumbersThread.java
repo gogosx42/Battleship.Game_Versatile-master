@@ -20,15 +20,17 @@ public class NumbersThread extends Thread implements Runnable {
 
     private Socket clientSocket;
     private static NumbersThread[] threads;
+    private static boolean[] playerTypes;
     private int maxClientsCount;            //Total number of clients connected to the server in the current session (even the disconnected).
     private String value;
     private int hh;
     private PrintWriter out = null;
     private BufferedReader in = null;
 
-    public NumbersThread(Socket clientSocket, NumbersThread[] threads) {
+    public NumbersThread(Socket clientSocket, NumbersThread[] threads, boolean[] playerTypes) {
         this.clientSocket = clientSocket;
         this.threads = threads;
+        this.playerTypes = playerTypes;
         maxClientsCount = threads.length;
     }
 
@@ -44,12 +46,32 @@ public class NumbersThread extends Thread implements Runnable {
             while (true) {
                 synchronized (this) {
                     value = in.readLine();
-
-                    // Send to all clients except itself.
-                    for (int i = 0; i < maxClientsCount; i++) {
-                        if (threads[i] != null && threads[i] != this) {
-                            System.out.println("Sending " + value + " to PC " + i);
-                            threads[i].out.println(value);
+                    String[] splitMessage = value.split(":");
+                    if (splitMessage[0].equals("notify")) {
+                        for (int i = 0; i < maxClientsCount; i++) {
+                            if (threads[i] == this) {
+                                if (splitMessage[1].equals("Observer")) {
+                                    System.out.println("Observer");
+                                    playerTypes[i] = false;
+                                } else {
+                                    System.out.println("Player");
+                                    playerTypes[i] = true;
+                                }
+                            }
+                        }
+                    } else if (splitMessage[0].equals("refreshObservers")) {
+                        for (int i = 0; i < maxClientsCount; i++) {
+                            if (threads[i] != null && threads[i] != this && !playerTypes[i]) {
+                                // Parse info for Enemy an Ally ships (id, index) to Observers
+                            }
+                        }
+                    } else {
+                        // Send to all clients except itself.
+                        for (int i = 0; i < maxClientsCount; i++) {
+                            if (threads[i] != null && threads[i] != this) {
+                                System.out.println("Sending " + value + " to PC " + i);
+                                threads[i].out.println(value);
+                            }
                         }
                     }
                 }

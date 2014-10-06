@@ -52,6 +52,7 @@ public class BattleshipMain implements ActionListener, Runnable {
     private JLabel observerTitle = new JLabel("Currently watching a game: ", SwingConstants.CENTER);
     private JButton observerButton = new JButton("Watch an ongoing battle..");
     private String currentPlayer = null;
+    private static String currentPlayerType;
     private static JFrame masterFrame = new JFrame("Battleship Game");
     private JPanel upPanel = new JPanel();
     private JPanel decorPanel = new JPanel();
@@ -120,6 +121,26 @@ public class BattleshipMain implements ActionListener, Runnable {
         observerButton.setOpaque(false);
         observerButton.setContentAreaFilled(false);
         observerButton.setBorderPainted(true);
+        observerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setCurrentPlayerType("observer");
+                currentPlayer = "Adult";
+                startingFrame.dispose();
+                try {
+                    tempClass = Class.forName("gr.epp.thesis." + currentPlayer + "Values");
+                    playerValues = (GenericValues) tempClass.newInstance();
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(ChildBlock.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(BattleshipMain.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(BattleshipMain.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Thread thread = new Thread(new BattleshipMain(currentPlayerType, playerValues));
+                thread.start();
+            }
+        });
     }
 
     /**
@@ -177,14 +198,29 @@ public class BattleshipMain implements ActionListener, Runnable {
         upPanel.add(enemyShipsListPanel, BorderLayout.WEST);
         masterFrame.validate();
 
-        gameControl = new GameControl(playerValues);
+        int portNumber = 1501;
+        String host = "localhost";
+        System.out.print("Connect with " + host + " in port " + portNumber + ": ");
+        try {
+            clientSocket = new Socket(host, portNumber);
+            System.out.println("Connected");
+//            gameControl.setSocket(clientSocket);
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(BattleshipMain.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(BattleshipMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        gameControl = new GameControl(playerValues, clientSocket, currentPlayerType);
 
         try {
             tempClass = Class.forName("gr.epp.thesis." + currentPlayer + "Block");
             for (int i = 0; i < this.playerValues.getGridRows() * this.playerValues.getGridColumns(); i++) {
                 GenericBlock enemySeaBlock = (GenericBlock) tempClass.newInstance();
-                enemySeaBlock.addMouseListener(gameControl);
-                enemyBoard.add(enemySeaBlock);
+                if (getCurrentPlayerType().equals("gamer")) {
+                    enemySeaBlock.addMouseListener(gameControl);
+                    enemyBoard.add(enemySeaBlock);
+                }
                 GenericBlock mySeaBlock = (GenericBlock) tempClass.newInstance();
                 mySeaBlock.addMouseListener(gameControl);
                 allyBoard.add(mySeaBlock);
@@ -211,21 +247,20 @@ public class BattleshipMain implements ActionListener, Runnable {
             }
 
             gameControl.setLateValues(enemyBoard, allyBoard, enemyShipsListPanel);
-
-            int portNumber = 1501;
-            String host = "localhost";
-            System.out.print("Connect with " + host + " in port " + portNumber + ": ");
-            try {
-                clientSocket = new Socket(host, portNumber);
-                System.out.println("Connected");
-                gameControl.setSocket(clientSocket);
-                (new Thread(gameControl)).start();
-            } catch (UnknownHostException ex) {
-                Logger.getLogger(BattleshipMain.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(BattleshipMain.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            (new Thread(gameControl)).start();
+//            int portNumber = 1501;
+//            String host = "localhost";
+//            System.out.print("Connect with " + host + " in port " + portNumber + ": ");
+//            try {
+//                clientSocket = new Socket(host, portNumber);
+//                System.out.println("Connected");
+//                gameControl.setSocket(clientSocket);
+//                (new Thread(gameControl)).start();
+//            } catch (UnknownHostException ex) {
+//                Logger.getLogger(BattleshipMain.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (IOException ex) {
+//                Logger.getLogger(BattleshipMain.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         } catch (NoSuchMethodException | IllegalArgumentException | InvocationTargetException ex) {
             Logger.getLogger(BattleshipMain.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -254,6 +289,7 @@ public class BattleshipMain implements ActionListener, Runnable {
         } catch (IllegalAccessException ex) {
             Logger.getLogger(BattleshipMain.class.getName()).log(Level.SEVERE, null, ex);
         }
+        setCurrentPlayerType("gamer");
         Thread thread = new Thread(new BattleshipMain(currentPlayer, playerValues));
         thread.start();
     }
@@ -281,4 +317,13 @@ public class BattleshipMain implements ActionListener, Runnable {
     public static void main(String[] args) {
         BattleshipMain entryPoint = new BattleshipMain();
     }
+
+    public String getCurrentPlayerType() {
+        return currentPlayerType;
+    }
+
+    public void setCurrentPlayerType(String currentPlayerType) {
+        this.currentPlayerType = currentPlayerType;
+    }
+
 }

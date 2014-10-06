@@ -59,10 +59,12 @@ public class GameControl implements MouseListener, Runnable {
     private static int successfulHits = 0;
     private static int totalHits = 0;
     private static int l = 0;
+    private String currentPlayerType;
+    private String fleetCoordinates;
 
     private int a, b, c, d, tempId2 = 0;
 
-    public GameControl(GenericValues playerValues) {
+    public GameControl(GenericValues playerValues, Socket clientScoket, String currentPlayerType) {
         this.playerValues = playerValues;               //Current player values.
         this.gridRows = playerValues.getGridRows();
         this.gridColumns = playerValues.getGridColumns();
@@ -73,6 +75,15 @@ public class GameControl implements MouseListener, Runnable {
         this.missedShotIcon = playerValues.getMissedShotIcon();
         this.warshipBlocksList = new ArrayList<>();
         this.hittenBlocks = new ArrayList<>();
+        this.clientSocket = clientScoket;
+        this.currentPlayerType = currentPlayerType;
+        try {
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
+        } catch (IOException ex) {
+            Logger.getLogger(GameControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        out.println("notify:" + currentPlayerType);
     }
 
     /**
@@ -131,6 +142,9 @@ public class GameControl implements MouseListener, Runnable {
         this.l = 0;
         warshipBlock.setIcon(playerValues.getGridPieces(shipBlocksNumber, currentBlock, orientation, false));
         System.out.println("" + warshipBlock.getName());
+        System.out.println(warshipBlock.getIndex());
+        
+        
         warshipBlock.setBackground(seaColor);
         warshipBlock.setWarshipBlockOnGrid(true);
         currentWarship.setEnabled(false);
@@ -226,6 +240,7 @@ public class GameControl implements MouseListener, Runnable {
     public void initiateGame() {
         if (warshipBlocksList.size() == playerValues.getShipBlocksTotalNumber()) {
             //Start the game session here...
+            scanBoard();
             activateBoard(enemyBoard, true);
             gameStarted = true;
             System.out.println("GAMESTARTED");
@@ -243,8 +258,8 @@ public class GameControl implements MouseListener, Runnable {
     @Override
     public void run() {
         try {
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
+//            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+//            out = new PrintWriter(clientSocket.getOutputStream(), true);
             while (true) {
                 String incomingMessage = in.readLine();
                 String[] splitMessage = incomingMessage.split(":");
@@ -254,12 +269,17 @@ public class GameControl implements MouseListener, Runnable {
                     GenericBlock playerHitBlock = (GenericBlock) alliesBoard.getComponent(hitBlock);
                     if (playerHitBlock.isWarshipBlockOnGrid()) {
                         out.println("success:" + hitBlock);
+                        System.out.println(playerHitBlock.getWarshipName());
+
+//                        playerHitBlock.setIcon("Sink"+playerHitBlock.getWarshipName()+".gif");
                         playerHitBlock.setIcon(successfulShotIcon);
-                        checkDestruction(playerHitBlock, hitBlock);
+//                        checkDestruction(playerHitBlock, hitBlock);
                     } else {
                         out.println("missed:" + hitBlock);
                         playerHitBlock.setIcon(missedShotIcon);
                     }
+                    
+//                    out.println(refreshObservers:);
                     locked = false;
                 } else {
                     GenericBlock enemyHitBlock = (GenericBlock) enemyBoard.getComponent(hitBlock);
@@ -471,5 +491,17 @@ public class GameControl implements MouseListener, Runnable {
                 break;
         }
         tempId2 = 0;
+    }
+
+    public String scanBoard() {
+        for (int i = 0; i < alliesBoard.getComponentCount(); i++) {
+            GenericBlock tempBlock = (GenericBlock) alliesBoard.getComponent(i);
+            if (tempBlock.isWarshipBlockOnGrid()) {
+                fleetCoordinates = tempBlock.getName();
+                fleetCoordinates += ":" + tempBlock.getIndex();
+            }
+        }
+        System.out.println(fleetCoordinates);
+        return fleetCoordinates;
     }
 }
