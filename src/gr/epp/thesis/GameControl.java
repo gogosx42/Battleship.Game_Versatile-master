@@ -84,6 +84,9 @@ public class GameControl implements MouseListener, Runnable {
             Logger.getLogger(GameControl.class.getName()).log(Level.SEVERE, null, ex);
         }
         out.println("notify:" + currentPlayerType);
+        if (currentPlayerType.equals("observer")) {
+            deactivateBoard();
+        }
     }
 
     /**
@@ -104,17 +107,23 @@ public class GameControl implements MouseListener, Runnable {
      * blocks, and removes the gameConstrol Listener.
      */
     public void activateBoard(JPanel board, boolean activate) {
-        for (int i = 0; i < playerValues.getBlocksTotalNumber(); i++) {
-            GenericBlock tempBlock = (GenericBlock) board.getComponent(i);
-            tempBlock.setEnabled(activate);
-            if (activate) {
-                tempBlock.addMouseListener(this);
-                tempBlock.setIcon(waterIcon);
-            } else {
-                tempBlock.removeMouseListener(this);
-                tempBlock.setDisabledIcon(waterIcon);
+        if (currentPlayerType.equals("observer")) {
+            for (int i = 0; i < playerValues.getBlocksTotalNumber(); i++) {
+                GenericBlock tempBlock = (GenericBlock) board.getComponent(i);
+                tempBlock.setEnabled(activate);
+                if (activate) {
+                    tempBlock.addMouseListener(this);
+                    tempBlock.setIcon(waterIcon);
+                } else {
+                    tempBlock.removeMouseListener(this);
+                    tempBlock.setDisabledIcon(waterIcon);
+                }
             }
         }
+    }
+
+    public void deactivateBoard() {
+
     }
 
     /**
@@ -143,8 +152,7 @@ public class GameControl implements MouseListener, Runnable {
         warshipBlock.setIcon(playerValues.getGridPieces(shipBlocksNumber, currentBlock, orientation, false));
         System.out.println("" + warshipBlock.getName());
         System.out.println(warshipBlock.getIndex());
-        
-        
+
         warshipBlock.setBackground(seaColor);
         warshipBlock.setWarshipBlockOnGrid(true);
         currentWarship.setEnabled(false);
@@ -237,10 +245,13 @@ public class GameControl implements MouseListener, Runnable {
         }
     }
 
+    /**
+     * Initiates the game. Checks if all ships are placed on the board first.
+     */
     public void initiateGame() {
         if (warshipBlocksList.size() == playerValues.getShipBlocksTotalNumber()) {
             //Start the game session here...
-            scanBoard();
+//            scanBoard();
             activateBoard(enemyBoard, true);
             gameStarted = true;
             System.out.println("GAMESTARTED");
@@ -259,7 +270,7 @@ public class GameControl implements MouseListener, Runnable {
     public void run() {
         try {
 //            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-//            out = new PrintWriter(clientSocket.getOutputStream(), true);
+//            out = new PrintWriter(clientSocket.getOutputStream(), true); // moved to constructor.
             while (true) {
                 String incomingMessage = in.readLine();
                 String[] splitMessage = incomingMessage.split(":");
@@ -271,14 +282,14 @@ public class GameControl implements MouseListener, Runnable {
                         out.println("success:" + hitBlock);
                         System.out.println(playerHitBlock.getWarshipName());
 
-//                        playerHitBlock.setIcon("Sink"+playerHitBlock.getWarshipName()+".gif");
+//                        playerHitBlock.setIcon("Sink"+playerHitBlock.getWarshipName()+".gif"); // better add system path to icon
                         playerHitBlock.setIcon(successfulShotIcon);
-//                        checkDestruction(playerHitBlock, hitBlock);
+//                        checkDestruction(playerHitBlock, hitBlock); // needs work
                     } else {
                         out.println("missed:" + hitBlock);
                         playerHitBlock.setIcon(missedShotIcon);
                     }
-                    
+
 //                    out.println(refreshObservers:);
                     locked = false;
                 } else {
@@ -325,7 +336,7 @@ public class GameControl implements MouseListener, Runnable {
         } else {
             if (e.getButton() == MouseEvent.BUTTON3) {
                 mouseExited(e);
-                horizontal ^= true;
+                horizontal ^= true; // changes state for each right click.
                 if (horizontal) {
                     orientation = 3;
                     mouseEntered(e);
@@ -504,4 +515,5 @@ public class GameControl implements MouseListener, Runnable {
         System.out.println(fleetCoordinates);
         return fleetCoordinates;
     }
+
 }

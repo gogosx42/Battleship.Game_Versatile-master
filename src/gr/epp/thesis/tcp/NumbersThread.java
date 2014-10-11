@@ -50,11 +50,11 @@ public class NumbersThread extends Thread implements Runnable {
                     if (splitMessage[0].equals("notify")) {
                         for (int i = 0; i < maxClientsCount; i++) {
                             if (threads[i] == this) {
-                                if (splitMessage[1].equals("Observer")) {
-                                    System.out.println("Observer");
+                                if (splitMessage[1].equals("gamer")) {
+                                    System.out.println("Gamer");
                                     playerTypes[i] = false;
                                 } else {
-                                    System.out.println("Player");
+                                    System.out.println("Observer");
                                     playerTypes[i] = true;
                                 }
                             }
@@ -62,7 +62,7 @@ public class NumbersThread extends Thread implements Runnable {
                     } else if (splitMessage[0].equals("refreshObservers")) {
                         for (int i = 0; i < maxClientsCount; i++) {
                             if (threads[i] != null && threads[i] != this && !playerTypes[i]) {
-                                // Parse info for Enemy an Ally ships (id, index) to Observers
+                                // Parse info(id, index) about Enemy and Ally ships to Observers.
                             }
                         }
                     } else {
@@ -77,7 +77,6 @@ public class NumbersThread extends Thread implements Runnable {
                 }
             }
         } catch (IOException ex) {
-
             //When a user disconnects, his position is emptied
             for (int i = 0; i < maxClientsCount; i++) {
                 if (threads[i] == this) {

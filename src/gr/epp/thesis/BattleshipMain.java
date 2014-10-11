@@ -117,7 +117,7 @@ public class BattleshipMain implements ActionListener, Runnable {
 
         observerButton.setFont(new Font("Verdana", Font.BOLD, 14));
         observerButton.setForeground(Color.BLACK);
-        observerButton.setEnabled(false);
+        observerButton.setEnabled(true);
         observerButton.setOpaque(false);
         observerButton.setContentAreaFilled(false);
         observerButton.setBorderPainted(true);
@@ -137,7 +137,7 @@ public class BattleshipMain implements ActionListener, Runnable {
                 } catch (IllegalAccessException ex) {
                     Logger.getLogger(BattleshipMain.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                Thread thread = new Thread(new BattleshipMain(currentPlayerType, playerValues));
+                Thread thread = new Thread(new BattleshipMain(currentPlayer, playerValues));
                 thread.start();
             }
         });
@@ -217,12 +217,14 @@ public class BattleshipMain implements ActionListener, Runnable {
             tempClass = Class.forName("gr.epp.thesis." + currentPlayer + "Block");
             for (int i = 0; i < this.playerValues.getGridRows() * this.playerValues.getGridColumns(); i++) {
                 GenericBlock enemySeaBlock = (GenericBlock) tempClass.newInstance();
-                if (getCurrentPlayerType().equals("gamer")) {
+//                if (getCurrentPlayerType().equals("gamer")) {
                     enemySeaBlock.addMouseListener(gameControl);
-                    enemyBoard.add(enemySeaBlock);
-                }
+//                }
+                enemyBoard.add(enemySeaBlock);
                 GenericBlock mySeaBlock = (GenericBlock) tempClass.newInstance();
-                mySeaBlock.addMouseListener(gameControl);
+//                if (getCurrentPlayerType().equals("gamer")) {
+                    mySeaBlock.addMouseListener(gameControl);
+//                }
                 allyBoard.add(mySeaBlock);
             }
 
@@ -247,7 +249,7 @@ public class BattleshipMain implements ActionListener, Runnable {
             }
 
             gameControl.setLateValues(enemyBoard, allyBoard, enemyShipsListPanel);
-            (new Thread(gameControl)).start();
+
 //            int portNumber = 1501;
 //            String host = "localhost";
 //            System.out.print("Connect with " + host + " in port " + portNumber + ": ");
@@ -318,8 +320,8 @@ public class BattleshipMain implements ActionListener, Runnable {
         BattleshipMain entryPoint = new BattleshipMain();
     }
 
-    public String getCurrentPlayerType() {
-        return currentPlayerType;
+    public final String getCurrentPlayerType() {
+        return this.currentPlayerType;
     }
 
     public void setCurrentPlayerType(String currentPlayerType) {
